@@ -76,17 +76,22 @@ function loadLanguage(){
 	var langFile = 'i18n/' + lang + '/strings.xml';
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,langFile);
 	if(file.exists()){
-		var doc = Ti.XML.parseString(file.read().toString());
-		if(doc){
-		    var nodes = doc.getElementsByTagName('string');
-		    translations = {};
-			for (var i = 0; i < nodes.length; i++) {
-				translations[nodes.item(i).getAttribute('name')] = nodes.item(i).textContent;
-				if(i<5){
-					console.log(i + '. ' + nodes.item(i).getAttribute('name') + '=' + nodes.item(i).textContent);
+		try {
+			var doc = Ti.XML.parseString(file.read().toString());
+			if(doc){
+			    var nodes = doc.getElementsByTagName('string');
+			    translations = {};
+				for (var i = 0; i < nodes.length; i++) {
+					translations[nodes.item(i).getAttribute('name')] = nodes.item(i).textContent;
+					if(i<5){
+						console.log(i + '. ' + nodes.item(i).getAttribute('name') + '=' + nodes.item(i).textContent);
+					}
 				}
+				if(ENV_DEV) console.info('language.loadLanguage: Read ' + nodes.length + ' translations for: ' + lang);
 			}
-			if(ENV_DEV) console.info('language.loadLanguage: Read ' + nodes.length + ' translations for: ' + lang);
+		} catch(e){
+			 /* ignore any XML errors */
+			if(ENV_DEV) console.error('language.loadLanguage: Errors in XML file: ' + JSON.stringify(e));
 		}
 	}
 }
