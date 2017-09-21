@@ -83,9 +83,6 @@ function loadLanguage(){
 			    translations = {};
 				for (var i = 0; i < nodes.length; i++) {
 					translations[nodes.item(i).getAttribute('name')] = nodes.item(i).textContent;
-					if(i<5){
-						console.log(i + '. ' + nodes.item(i).getAttribute('name') + '=' + nodes.item(i).textContent);
-					}
 				}
 				if(ENV_DEV) console.info('language.loadLanguage: Read ' + nodes.length + ' translations for: ' + lang);
 			}
